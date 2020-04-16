@@ -5,8 +5,10 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import java.io.ObjectInputStream;
+import java.io.Serializable;
 
-public class Profile {
+// i will make profile Serialiaseble so i can have info stored of before
+public class Profile implements Serializable {
 
     //constants : Ess ,
     private final int minEssWoman =10;

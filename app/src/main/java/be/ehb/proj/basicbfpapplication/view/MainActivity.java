@@ -2,8 +2,8 @@ package be.ehb.proj.basicbfpapplication.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.graphics.Color;
 import android.os.Bundle;
+import android.renderscript.Sampler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,8 +11,6 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.net.Inet4Address;
 
 import be.ehb.proj.basicbfpapplication.R;
 import be.ehb.proj.basicbfpapplication.controller.Controller;
@@ -26,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         init();
-        this.controle = Controller.getInstance();
 
 }
 //properties
@@ -51,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
         radioWoman =(RadioButton) findViewById(R.id.radioWoman);
         lblResultBFP = (TextView) findViewById(R.id.lblResultBFP);
         ProgressBar progressBar = (ProgressBar) findViewById(R.id.progressBarBFP);
+        this.controle = Controller.getInstance(this);
         listenCalculation();
+        recupProfile();
 
 
     }
@@ -109,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
     private final int minObeMan =25;
     private void viewResult(float weight, float height , int age , int sex){
         // via controller > aanmaak profiel en data inhalen
-        this.controle.Profile(weight,height,age,sex);
+        this.controle.Profile(weight,height,age,sex, this); // context = this = Mainactivity => for Serialisable
         float bfp = this.controle.getBFP();
         String message = this.controle.getMessage();
         // categorisering
@@ -126,4 +125,22 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * recuparation of profil if serialisble
+     */
+    private void recupProfile(){
+        if ( controle.getAge() != null ) // zolang 1 niet null zal er iets geserialiseerd zijn
+        {
+            txtInputWeight.setText(String.valueOf(controle.getWeight()).toString());
+            txtInputHeight.setText(String.valueOf(controle.getHeight()).toString());
+            txtInputAge.setText(controle.getAge().toString());
+            radioWoman.setChecked(true);
+            if (controle.getSex() ==1)
+            {
+                radioMan.setChecked(true);
+            }
+
+            ((Button) findViewById(R.id.btnCalculateBFP_Click)).performClick(); // simulate a click
+        }
     }
+}
