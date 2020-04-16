@@ -12,6 +12,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.Inet4Address;
+
 import be.ehb.proj.basicbfpapplication.R;
 import be.ehb.proj.basicbfpapplication.controller.Controller;
 
@@ -112,8 +114,15 @@ public class MainActivity extends AppCompatActivity {
         String message = this.controle.getMessage();
         // categorisering
         if ( message == " You are UNDER the category 'Essential Fat' you have a BFP Under the "+ minEssWoman +"%.")
-        lblResultBFP.setText(message.toString());
-        else lblResultBFP.setText("You have a BFP of "+ String.format(String.valueOf("%.01f"),bfp)+ "%");
+        {
+            lblResultBFP.setText(message.toString());
+
+        }
+
+        else {
+            lblResultBFP.setText("You have a BFP of "+ String.format(String.valueOf("%.01f"),bfp)+ "%");
+
+        }
 
     }
 
