@@ -2,6 +2,9 @@ package be.ehb.proj.basicbfpapplication.model;
 
 import org.junit.Test;
 
+import be.ehb.proj.basicbfpapplication.controller.Controller;
+import be.ehb.proj.basicbfpapplication.view.MainActivity;
+
 import static org.junit.Assert.*;
 
 public class ProfileTest {
