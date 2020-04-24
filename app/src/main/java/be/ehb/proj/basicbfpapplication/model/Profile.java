@@ -43,9 +43,9 @@ public class Profile {
     private String message;
 
     public Profile(float weight, float height, int age, int sex) {
-        this.weight = weight;
-        this.height = height;
-        this.age = age;
+       this.weight = weight;
+       this.height = height;
+       this.age = age;
        this.sex = sex;
        this.calculateBMI();
        this.calculateBFP();
