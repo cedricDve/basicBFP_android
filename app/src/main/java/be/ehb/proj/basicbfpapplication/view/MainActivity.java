@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
     private final int maxFitWoman =25;
     private final int minFitMan =14;
     private final int maxFitMan =18;
+    //WHY CANT PUSH TO MASTER
     //constants : Ave ,
     private final int minAveWoman =25;
     private final int maxAveWoman =32;
