@@ -3,7 +3,6 @@ package be.ehb.proj.basicbfpapplication.view;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.renderscript.Sampler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,8 +36,10 @@ public class MainActivity extends AppCompatActivity {
     private Controller controle;
      //link to data >
 
+
+
     /**
-     * initialisation of my links to my grafical objects
+     * initialisation of my links to my graphical objects in a separated funtion so it's easyer to read code
      */
     private void init(){
         txtInputWeight =(EditText)  findViewById(R.id.txtInputWeight);
@@ -108,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     private final int minObeMan =25;
     private void viewResult(float weight, float height , int age , int sex){
         // via controller > aanmaak profiel en data inhalen
-        this.controle.Profile(weight,height,age,sex, this); // context = this = Mainactivity => for Serialisable
+        this.controle.createProfile(weight,height,age,sex, this); // context = this = Mainactivity => for Serialisable
         float bfp = this.controle.getBFP();
         String message = this.controle.getMessage();
         // categorisering
@@ -124,9 +125,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+    // MVC -> controller check info for MainActivity !
 
     /**
-     * recuparation of profil if serialisble
+     * recuperation of profile if serializable
      */
     private void recupProfile(){
         if ( controle.getAge() != null ) // zolang 1 niet null zal er iets geserialiseerd zijn
@@ -139,7 +141,6 @@ public class MainActivity extends AppCompatActivity {
             {
                 radioMan.setChecked(true);
             }
-
             ((Button) findViewById(R.id.btnCalculateBFP_Click)).performClick(); // simulate a click
         }
     }

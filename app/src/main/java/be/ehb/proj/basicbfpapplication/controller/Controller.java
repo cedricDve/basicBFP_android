@@ -2,35 +2,57 @@ package be.ehb.proj.basicbfpapplication.controller;
 
 import android.content.Context;
 
+import java.util.Date;
+
+import be.ehb.proj.basicbfpapplication.model.AccesLocal;
 import be.ehb.proj.basicbfpapplication.model.Profile;
 import be.ehb.proj.basicbfpapplication.tools.Serialiser;
 
 public class Controller { // all static for Serialiser that is static
-    private static Profile profil; // nieuw object aanmaken > import nodig
+    private static Profile profile; // nieuw object aanmaken > import nodig
     private static Controller instance = null;
-    private static String nameProfil = "saveprofil";
+    private static String nameFile = "saveprofil";
+    private static AccesLocal localAcces;
 
     private Controller(){
+
         super();
     }
+
     public static final Controller getInstance(Context context){
-        if( Controller.instance == null)
-        { // nog niet gegenereerd => hier kan ik wel een new aanmaken
+        if( Controller.instance == null){
+            // nog niet gegenereerd => hier kan ik wel een new aanmaken
             Controller.instance = new Controller();
-            getSerialise(context); // static method
+            // recup info db, need context
+            localAcces = new AccesLocal(context);
+            // call method -> recoverLastProfil
+            profile = localAcces.recoverLastProfile();
+           // getSerialise(context); // static method -> localStorage
         }
         //anders return bestaande
         return Controller.instance;
     }// zo heb je steeds 1 instance > Singleton
-    public void Profile(float weight, float height, int age, int sex, Context context){
-        profil = new Profile(weight, height, age, sex);
-        Serialiser.serialise(nameProfil,profil, context);
+
+    /**
+     * creation of profile and use date from DB -> localAcces
+     * @param weight
+     * @param height
+     * @param age
+     * @param sex
+     * @param context
+     */
+    public void createProfile(float weight, float height, int age, int sex, Context context){
+        profile = new Profile(new Date(), weight, height, age, sex);
+        localAcces.addProfile(profile);
+
+      //  Serialiser.serialise(nameFile,profile, context);
     }
+    
     public float getBFP(){ // bfp gaan inlezen
-        return profil.getValueBFP();
+        return profile.getValueBFP();
     }
     public String getMessage(){ //messag gaan inlezen
-        return profil.getMessage();
+        return profile.getMessage();
     }
 
     /**
@@ -38,38 +60,38 @@ public class Controller { // all static for Serialiser that is static
      * @param context
      */
     private static void getSerialise(Context context){
-        profil = (Profile) Serialiser.deSerialise(nameProfil,context);
+        profile = (Profile) Serialiser.deSerialise(nameFile,context);
     }
     public float getHeight(){
-        if(profil == null)
+        if(profile == null)
         {
             return Float.parseFloat(null);
         } else {
-            return profil.getHeight();
+            return profile.getHeight();
         }
     }
     public float getWeight(){
-        if(profil == null)
+        if(profile == null)
         {
             return Float.parseFloat(null);
         } else {
-            return profil.getWeight();
+            return profile.getWeight();
         }
     }
     public Integer getAge(){
-        if(profil == null)
+        if(profile == null)
         {
             return null;
         } else {
-            return profil.getAge();
+            return profile.getAge();
         }
     }
     public float getSex(){
-        if(profil == null)
+        if(profile == null)
         {
             return Float.parseFloat(null);
         } else {
-            return profil.getSex();
+            return profile.getSex();
         }
     }
 }

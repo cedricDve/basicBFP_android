@@ -6,6 +6,7 @@ import android.widget.RadioGroup;
 
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.Date;
 
 // i will make profile Serialiaseble so i can have info stored of before
 public class Profile implements Serializable {
@@ -33,7 +34,8 @@ public class Profile implements Serializable {
     //constants : Obe
     private final int minObeWoman =32;
     private final int minObeMan =25;
-
+    //for SQLite
+    private Date dateMeasure;
     // properties
     private float weight;
     private float height;
@@ -44,14 +46,15 @@ public class Profile implements Serializable {
 
     private String message;
 
-    public Profile(float weight, float height, int age, int sex) {
+    public Profile(Date dateMeasure,float weight, float height, int age, int sex) {
+        this.dateMeasure = dateMeasure;
         this.weight = weight;
         this.height = height;
         this.age = age;
-       this.sex = sex;
-       this.calculateBMI();
-       this.calculateBFP();
-       this.resultBFP();
+        this.sex = sex;
+        this.calculateBMI();
+        this.calculateBFP();
+        this.resultBFP();
     }
 
     public float getWeight() {
@@ -80,6 +83,13 @@ public class Profile implements Serializable {
     public void calculateBMI(){
         float heightInM = (float) height/100;
         this.valueBMI =  weight / (heightInM*heightInM); // weight in KG
+    }
+    public Date getDateMeasure() {
+        return dateMeasure;
+    }
+
+    public void setDateMeasure(Date dateMetering) {
+        this.dateMeasure = dateMeasure;
     }
     public void calculateBFP(){
         float heightInM = (float) height/100;
